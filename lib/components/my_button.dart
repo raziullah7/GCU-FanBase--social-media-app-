@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
@@ -13,19 +12,22 @@ class MyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // button styling
-      padding: const EdgeInsets.all(25),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(8),
-      ),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        // button styling
+        padding: const EdgeInsets.all(25),
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(8),
+        ),
 
-      // button text
-      child: Center(
-        child: Text(
-          text,
-          style: const TextStyle(color: Colors.white, fontSize: 16),
+        // button text
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
         ),
       ),
     );

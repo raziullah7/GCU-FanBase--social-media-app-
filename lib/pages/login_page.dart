@@ -1,9 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:the_final_app/components/my_button.dart';
 import 'package:the_final_app/components/my_text_field.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final Function()? onTap;
+
+  const LoginPage({
+    super.key,
+    required this.onTap,
+  });
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -13,6 +20,34 @@ class _LoginPageState extends State<LoginPage> {
   // text editing controllers
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
+
+  // sign user in
+  void signIn() async {
+    // for loading circle
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailTextController.text,
+        password: passwordTextController.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      displayMessage(e.code);
+    }
+  }
+
+  // functoin to show the user the error message
+  void displayMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(title: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 // sign in button
                 const SizedBox(height: 25),
-                MyButton(onTap: () {}, text: "Sign In"),
+                MyButton(onTap: signIn, text: "Sign In"),
 
                 // go to register page
                 const SizedBox(height: 25),
@@ -66,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: widget.onTap,
                       child: const Text(
                         "Register now",
                         style: TextStyle(
