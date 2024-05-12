@@ -1,6 +1,6 @@
 # the_final_app
 
-A new Flutter project.
+My end of semester project. The GCU FanBase Social Media App.
 
 ## Getting Started
 
