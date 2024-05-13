@@ -30,17 +30,23 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
+    // applying the firebase sign in function
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailTextController.text,
         password: passwordTextController.text,
       );
+      // pop loading cycle dialog if call successful
+      if (context.mounted) Navigator.of(context).pop();
+
     } on FirebaseAuthException catch (e) {
+      // pop loading cycle dialog before showing error message
+      Navigator.pop(context);
       displayMessage(e.code);
     }
   }
 
-  // functoin to show the user the error message
+  // function to show the user the error message
   void displayMessage(String message) {
     showDialog(
       context: context,

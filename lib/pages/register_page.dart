@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../components/my_button.dart';
 import '../components/my_text_field.dart';
@@ -19,6 +20,48 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final confirmPasswordTextController = TextEditingController();
+
+  // sign user up
+  void signUp() async {
+    // for loading circle
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    // check if the password and confirmPassword match
+    if (passwordTextController.text != confirmPasswordTextController.text) {
+      // pop the loading screen
+      Navigator.pop(context);
+      // display the error message
+      displayMessage("Password does not match!");
+    }
+
+    // applying the firebase sign up function
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailTextController.text,
+        password: passwordTextController.text,
+      );
+      // pop loading cycle dialog if the call was successful
+      if (context.mounted) Navigator.of(context).pop();
+
+    } on FirebaseAuthException catch (e) {
+      // pop loading cycle dialog before showing error message
+      Navigator.pop(context);
+      displayMessage(e.code);
+    }
+  }
+
+  // function to show the user the error message
+  void displayMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(title: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 // sign up button
                 const SizedBox(height: 25),
-                MyButton(onTap: () {}, text: "Sign Up"),
+                MyButton(onTap: signUp, text: "Sign Up"),
 
                 // go to register page
                 const SizedBox(height: 25),
