@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:the_final_app/components/gcu_home_post.dart';
+import 'package:the_final_app/components/my_drawer.dart';
 import 'package:the_final_app/components/my_text_field.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,6 +43,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // go to ProfilePage
+  void goToProfilePage() {
+    // pop the drawer
+    Navigator.pop(context);
+    // go to ProfilePage
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ProfilePage,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +78,7 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
+      drawer: const MyDrawer(onProfileTap: () {}, onSignOutTap: signOut),
       body: Center(
         child: Column(
           children: [
