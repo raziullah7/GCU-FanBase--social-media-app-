@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Icon(Icons.lock, size: 100),
 
                 // welcome back message
-                const SizedBox(height: 50),
+                const SizedBox(height: 25),
                 Text(
                   "Welcome back, You've been missed!",
                   style: TextStyle(color: Colors.grey.shade800),

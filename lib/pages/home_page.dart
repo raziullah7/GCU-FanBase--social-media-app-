@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +33,7 @@ class _HomePageState extends State<HomePage> {
         "UserEmail": currentUser?.email,
         "Message": postTextController.text,
         "TimeStamp": Timestamp.now(),
+        "Likes": [],
       });
     }
     // clear the controller after pressing the upload button
@@ -83,10 +82,13 @@ class _HomePageState extends State<HomePage> {
                     return ListView.builder(
                       itemCount: snapshot.data?.docs.length,
                       itemBuilder: (context, index) {
+                        // make a post from the snapshot and return it as HomePost
                         final post = snapshot.data!.docs[index];
                         return HomePost(
                           user: post['UserEmail'],
                           message: post['Message'],
+                          postId: post.id,
+                          likes: List<String>.from(post['Likes'] ?? []),
                         );
                       },
                     );
@@ -106,7 +108,7 @@ class _HomePageState extends State<HomePage> {
 
             // post messages via text field
             Padding(
-              padding: const EdgeInsets.all(25.0),
+              padding: const EdgeInsets.all(15.0),
               child: Row(
                 children: [
                   Expanded(
@@ -116,9 +118,18 @@ class _HomePageState extends State<HomePage> {
                       obscureText: false,
                     ),
                   ),
-                  IconButton(
-                    onPressed: postMessage,
-                    icon: const Icon(Icons.upload),
+                  Container(
+                    height: 60,
+                    margin: const EdgeInsets.only(left: 10, right: 0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: IconButton(
+                      color: Colors.white,
+                      onPressed: postMessage,
+                      icon: const Icon(Icons.upload),
+                    ),
                   ),
                 ],
               ),
@@ -129,7 +140,7 @@ class _HomePageState extends State<HomePage> {
               "Logged in as: ${currentUser?.email}",
               style: TextStyle(color: Colors.grey[600]),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 35),
           ],
         ),
       ),
