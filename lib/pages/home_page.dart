@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:the_final_app/components/gcu_home_post.dart';
 import 'package:the_final_app/components/my_drawer.dart';
 import 'package:the_final_app/components/my_text_field.dart';
+import 'package:the_final_app/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   // sign out user
   void signOut() async {
-    FirebaseAuth.instance.signOut();
+    await FirebaseAuth.instance.signOut();
   }
 
   // function that posts the message onto the GCU home page
@@ -46,13 +47,15 @@ class _HomePageState extends State<HomePage> {
   // go to ProfilePage
   void goToProfilePage() {
     // pop the drawer
-    Navigator.pop(context);
+    Navigator.of(context).pop();
     // go to ProfilePage
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
-        builder: (context) => ProfilePage,
+        builder: (context) => const ProfilePage(),
       ),
     );
+    // setState(() {});
   }
 
   @override
@@ -60,6 +63,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.grey[300], // Change this to your desired color
+        ),
         backgroundColor: Colors.grey[900],
         title: const Center(
           child: Text(
@@ -74,11 +80,15 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: signOut,
-            icon: const Icon(Icons.logout, color: Colors.white, weight: 700),
+            // , color: Colors.white, weight: 700
+            icon: const Icon(Icons.logout),
           )
         ],
       ),
-      drawer: const MyDrawer(onProfileTap: () {}, onSignOutTap: signOut),
+      drawer: MyDrawer(
+        onProfileTap: goToProfilePage,
+        onSignOutTap: signOut,
+      ),
       body: Center(
         child: Column(
           children: [

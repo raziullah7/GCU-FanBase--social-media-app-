@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../components/my_button.dart';
@@ -33,24 +34,34 @@ class _RegisterPageState extends State<RegisterPage> {
 
     // check if the password and confirmPassword match
     if (passwordTextController.text != confirmPasswordTextController.text) {
-      // pop the loading screen
-      Navigator.pop(context);
       // display the error message
       displayMessage("Password does not match!");
     }
 
     // applying the firebase sign up function
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // create the new user
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailTextController.text,
         password: passwordTextController.text,
       );
-      // pop loading cycle dialog if the call was successful
-      if (context.mounted) Navigator.of(context).pop();
 
+      // store the user in the "Users" collection
+      FirebaseFirestore.instance
+          .collection("Users")
+          .doc(userCredential.user!.email)
+          .set(
+        {
+          'username': emailTextController.text.split('@')[0],
+          'bio': 'Empty bio...', // initially empty
+        },
+      );
+
+      // pop loading circle
+      if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       // pop loading cycle dialog before showing error message
-      Navigator.pop(context);
       displayMessage(e.code);
     }
   }

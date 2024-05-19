@@ -22,13 +22,13 @@ class _LoginPageState extends State<LoginPage> {
 
   // sign user in
   void signIn() async {
-    // for loading circle
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    // // for loading circle
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => const Center(
+    //     child: CircularProgressIndicator(),
+    //   ),
+    // );
 
     // applying the firebase sign in function
     try {
@@ -36,12 +36,9 @@ class _LoginPageState extends State<LoginPage> {
         email: emailTextController.text,
         password: passwordTextController.text,
       );
-      // pop loading cycle dialog if call successful
-      if (context.mounted) Navigator.of(context).pop();
 
     } on FirebaseAuthException catch (e) {
-      // pop loading cycle dialog before showing error message
-      Navigator.pop(context);
+      // showing error message
       displayMessage(e.code);
     }
   }
