@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: const Center(
-          child: Text("GCU FanBase"),
+          child: Text("GCU Community"),
         ),
         actions: [
           IconButton(
