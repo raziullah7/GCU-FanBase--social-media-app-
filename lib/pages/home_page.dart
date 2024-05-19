@@ -6,6 +6,8 @@ import 'package:the_final_app/components/my_drawer.dart';
 import 'package:the_final_app/components/my_text_field.dart';
 import 'package:the_final_app/pages/profile_page.dart';
 
+import '../helper/helper_methods.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -106,12 +108,14 @@ class _HomePageState extends State<HomePage> {
                     return ListView.builder(
                       itemCount: snapshot.data?.docs.length,
                       itemBuilder: (context, index) {
+
                         // make a post from the snapshot and return it as HomePost
                         final post = snapshot.data!.docs[index];
                         return HomePost(
                           user: post['UserEmail'],
                           message: post['Message'],
                           postId: post.id,
+                          time: formatDate(post["TimeStamp"]),
                           likes: List<String>.from(post['Likes'] ?? []),
                         );
                       },
