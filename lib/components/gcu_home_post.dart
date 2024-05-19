@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:the_final_app/components/comment_button.dart';
 import 'package:the_final_app/components/comment.dart';
+import 'package:the_final_app/components/delete_button.dart';
 import 'package:the_final_app/components/like_button.dart';
 
 import '../helper/helper_methods.dart';
@@ -121,11 +122,64 @@ class _HomePostState extends State<HomePost> {
     );
   }
 
+  // delete post button
+  void deletePost() {
+    // show a dialog box for confirmation
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Delete Post"),
+        content: const Text("Are you sure you want to delete this post?"),
+        actions: [
+          // delete button
+          TextButton(
+            onPressed: () async {
+              // must delete comments on the post before deleting the post
+              final commentDocs = await FirebaseFirestore.instance
+                  .collection("User Posts")
+                  .doc(widget.postId)
+                  .collection("Comments")
+                  .get();
+
+              for (var doc in commentDocs.docs) {
+                await FirebaseFirestore.instance
+                    .collection("User Posts")
+                    .doc(widget.postId)
+                    .collection("Comments")
+                    .doc(doc.id)
+                    .delete();
+              }
+
+              // then delete the post
+              await FirebaseFirestore.instance
+                  .collection("User Posts")
+                  .doc(widget.postId)
+                  .delete()
+                  .then((value) => print("Post Deleted"))
+                  .catchError(
+                      (error) => print("Failed to delete post: $error"));
+
+              // pop the dialog box
+              Navigator.pop(context);
+            },
+            child: const Text("delete"),
+          ),
+
+          // cencel button
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[100],
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.all(25),
@@ -136,20 +190,30 @@ class _HomePostState extends State<HomePost> {
           // USER EMAIL + USER POST
           const SizedBox(width: 15),
           // user email and message
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.message),
-              Row(
+              // group of text (user + email)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.user, style: TextStyle(color: Colors.grey[500])),
-                  Text(" • ", style: TextStyle(color: Colors.grey[500])),
-                  Text(widget.time, style: TextStyle(color: Colors.grey[500])),
+                  Text(widget.message),
+                  Row(
+                    children: [
+                      Text(widget.user,
+                          style: TextStyle(color: Colors.grey[500])),
+                      Text(" • ", style: TextStyle(color: Colors.grey[500])),
+                      Text(widget.time,
+                          style: TextStyle(color: Colors.grey[500])),
+                    ],
+                  ),
+                  const SizedBox(height: 5)
                 ],
               ),
-              const SizedBox(
-                height: 5,
-              )
+              // delete button
+              if (widget.user == currentUser.email)
+                DeleteButton(onTap: deletePost)
             ],
           ),
 

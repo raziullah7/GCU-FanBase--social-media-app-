@@ -66,15 +66,15 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 69),
+        title: const Padding(
+          padding: EdgeInsets.only(left: 69),
           child:
-              Text("Profile Page", style: TextStyle(color: Colors.grey[300])),
+              Text("Profile Page"),
         ),
-        backgroundColor: Colors.grey[900],
-        iconTheme: IconThemeData(color: Colors.grey[300]),
+        // backgroundColor: Colors.grey[900],
+        // iconTheme: IconThemeData(color: Colors.grey[300]),
       ),
       body: StreamBuilder(
         // listen to collection named 'Users' with document name equal

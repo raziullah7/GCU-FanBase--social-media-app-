@@ -63,21 +63,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.grey[300], // Change this to your desired color
-        ),
-        backgroundColor: Colors.grey[900],
         title: const Center(
-          child: Text(
-            "GCU FanBase",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: Text("GCU FanBase"),
         ),
         actions: [
           IconButton(
@@ -108,7 +97,6 @@ class _HomePageState extends State<HomePage> {
                     return ListView.builder(
                       itemCount: snapshot.data?.docs.length,
                       itemBuilder: (context, index) {
-
                         // make a post from the snapshot and return it as HomePost
                         final post = snapshot.data!.docs[index];
                         return HomePost(

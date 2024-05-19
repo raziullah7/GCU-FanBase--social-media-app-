@@ -19,8 +19,8 @@ class MyTextField extends StatelessWidget {
       obscureText: obscureText,
       decoration: InputDecoration(
         // appearance of the text field before clicking on it (non-focused)
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.secondary),
         ),
 
         // appearance of the text field after clicking on it (focused)
@@ -33,7 +33,7 @@ class MyTextField extends StatelessWidget {
         hintStyle: TextStyle(color: Colors.grey[500]),
 
         // filling the text field with color grey[200]
-        fillColor: Colors.grey[200],
+        fillColor: Theme.of(context).colorScheme.primary,
         filled: true,
       ),
     );

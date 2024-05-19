@@ -20,7 +20,7 @@ class MyTextBox extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 15),
       margin: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(

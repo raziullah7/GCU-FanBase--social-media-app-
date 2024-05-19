@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:the_final_app/components/my_list_tile.dart';
-
 import '../pages/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -22,17 +21,17 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Theme.of(context).colorScheme.background,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
               // header or title of the drawer
-              const DrawerHeader(
+              DrawerHeader(
                 child: Icon(
                   Icons.person,
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.tertiary,
                   size: 64,
                 ),
               ),
