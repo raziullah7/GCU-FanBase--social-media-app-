@@ -22,14 +22,6 @@ class _LoginPageState extends State<LoginPage> {
 
   // sign user in
   void signIn() async {
-    // // for loading circle
-    // showDialog(
-    //   context: context,
-    //   builder: (context) => const Center(
-    //     child: CircularProgressIndicator(),
-    //   ),
-    // );
-
     // applying the firebase sign in function
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -54,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -69,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 25),
                 Text(
                   "Welcome back, You've been missed!",
-                  style: TextStyle(color: Colors.grey.shade800),
+                  style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                 ),
 
                 // email text field

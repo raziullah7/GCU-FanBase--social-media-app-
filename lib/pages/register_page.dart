@@ -24,13 +24,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
   // sign user up
   void signUp() async {
-    // for loading circle
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    // // for loading circle
+    // showDialog(
+    //   context: context,
+    //   builder: (context) => const Center(
+    //     child: CircularProgressIndicator(),
+    //   ),
+    // );
 
     // check if the password and confirmPassword match
     if (passwordTextController.text != confirmPasswordTextController.text) {

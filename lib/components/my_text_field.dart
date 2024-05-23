@@ -30,7 +30,7 @@ class MyTextField extends StatelessWidget {
 
         // hint text and its styling
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey[500]),
+        hintStyle: TextStyle(color: Theme.of(context).colorScheme.tertiary),
 
         // filling the text field with color grey[200]
         fillColor: Theme.of(context).colorScheme.primary,
